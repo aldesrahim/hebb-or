@@ -40,17 +40,36 @@ function generateDataTraining($n): array
 }
 
 $method = HebbMethod::BIPOLAR;
-$dataTraining = generateDataTraining(3);
 
-Hebb::training(
-    $dataTraining['inputs'],
-    $dataTraining['outputs'],
-    $method,
-);
+for ($i = 2; $i <= 10; $i++) {
+    $dataTraining = generateDataTraining($i);
+
+    Hebb::training(
+        $dataTraining['inputs'],
+        $dataTraining['outputs'],
+        $method,
+    );
+}
 
 Hebb::recognize($method, [
     [true, true],
-    [true, false],
     [false, true],
+    [true, false],
     [false, false],
+]);
+
+Hebb::recognize($method, [
+    [true, false, true],
+    [false, false, false],
+    [false, false, true],
+]);
+
+Hebb::recognize($method, [
+    [true, false, true, false],
+    [false, false, false, false],
+]);
+
+Hebb::recognize($method, [
+    [true, false, true, false, true],
+    [false, false, false, false, false],
 ]);

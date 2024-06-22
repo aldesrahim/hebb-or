@@ -16,6 +16,14 @@ class Hebb
         };
     }
 
+    public static function reduceInput(array $input): array
+    {
+        return [
+            array_reduce(array_slice($input, 0, -1), fn ($carry, $item) => $carry || $item, false),
+            end($input),
+        ];
+    }
+
     public static function training(array $inputs, array $outputs, int $method, bool $overwrite = false): void
     {
         if (count($inputs) !== count($outputs)) {
@@ -50,6 +58,10 @@ class Hebb
 
         foreach ($inputs as $i => $rawInput) {
             $nets[$i] ??= 0;
+
+            if (count($rawInput) > 2) {
+                $rawInput = static::reduceInput($rawInput);
+            }
 
             foreach ($rawInput as $j => $input) {
                 $weight = (static::$weights[$j + 1] ??= 0);
