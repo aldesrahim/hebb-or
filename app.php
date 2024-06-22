@@ -10,6 +10,7 @@ function generateDataTraining($n): array
     $dataTraining = [
         'inputs' => [],
         'outputs' => [],
+        'combos' => [],
     ];
 
     $combinations = [];
@@ -23,10 +24,11 @@ function generateDataTraining($n): array
         }
 
         $combinations[] = $combination;
+        $dataTraining['combos'][] = $combination;
     }
 
     foreach ($combinations as $combination) {
-        $output = array_reduce($combination, fn($carry, $item) => $carry || $item, false);
+        $output = array_reduce($combination, fn ($carry, $item) => $carry || $item, false);
         $dataTraining['inputs'][] = [
             0, // bias
             ...$combination,
@@ -38,35 +40,17 @@ function generateDataTraining($n): array
 }
 
 $method = HebbMethod::BIPOLAR;
+$dataTraining = generateDataTraining(3);
 
-for ($i = 2; $i <= 10; $i++) {
-    $dataTraining = generateDataTraining($i);
-
-    Hebb::training(
-        $dataTraining['inputs'],
-        $dataTraining['outputs'],
-        $method,
-    );
-}
+Hebb::training(
+    $dataTraining['inputs'],
+    $dataTraining['outputs'],
+    $method,
+);
 
 Hebb::recognize($method, [
     [true, true],
-    [false, true],
     [true, false],
+    [false, true],
     [false, false],
-]);
-
-Hebb::recognize($method, [
-    [true, false, true],
-    [false, false, false]
-]);
-
-Hebb::recognize($method, [
-    [true, false, true, false],
-    [false, false, false, false]
-]);
-
-Hebb::recognize($method, [
-    [true, false, true, false, true],
-    [false, false, false, false, false]
 ]);

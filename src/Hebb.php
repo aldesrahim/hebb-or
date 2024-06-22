@@ -72,7 +72,8 @@ class Hebb
         echo "=========================\n\n";
 
         foreach ($results as $i => $result) {
-            echo sprintf("Hasil #%s\nInput: (%s)\nOutput: %s\n\n",
+            echo sprintf(
+                "Hasil #%s\nInput: (%s)\nOutput: %s\n\n",
                 $i + 1,
                 implode(', ', array_map(fn ($input) => static::convert($method, $input), $inputs[$i])),
                 $result

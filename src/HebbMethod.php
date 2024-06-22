@@ -4,6 +4,6 @@ namespace App;
 
 class HebbMethod
 {
-    const BINARY = 1;
-    const BIPOLAR = 2;
+    public const BINARY = 1;
+    public const BIPOLAR = 2;
 }
