@@ -28,7 +28,7 @@ function generateDataTraining($n): array
     foreach ($combinations as $combination) {
         $output = array_reduce($combination, fn($carry, $item) => $carry || $item, false);
         $dataTraining['inputs'][] = [
-            1, // bias
+            0, // bias
             ...$combination,
         ];
         $dataTraining['outputs'][] = $output;
